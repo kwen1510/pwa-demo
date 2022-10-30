@@ -22,7 +22,7 @@
   // you may not be able to install the app. 
   "icons": [
       {
-        "src": "pwa/img/icon.png",
+        "src": "img/icon.png",
         "type": "image/png",
         "sizes": "512x512"
       }
