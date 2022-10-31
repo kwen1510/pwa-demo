@@ -6,39 +6,66 @@
     <title>My First PWA</title>
     <link rel="canonical" href="https://kwen1510.github.io/pwa/" />
     <link rel="manifest" href="/pwa/manifest.webmanifest" />
-<!--     <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script> -->
+    <!--     <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script> -->
     <script src="./dist/qr.js"></script>
   </head>
-
   <body>
     <h2>This is my PWA</h2>
-    <input type="text" id="textBox" />
-    <button onclick="clearInput()">Clear Inputs</button>
+    <input type="text" id="textBox" /><br />
+    <button onclick="clearInput()">Clear Inputs</button><br />
+    <button onclick="startCamera()">Start Camera</button><br />
+    <button onclick="stopCamera()">Stop Camera</button>
 
-    <div id="qr-reader" style="width: 600px"></div>
+    <div id="qr-reader" style="width: 100%"></div>
 
     <script>
       function clearInput() {
         document.getElementById("textBox").value = "";
       }
 
-      function onScanSuccess(decodedText, decodedResult) {
-        // handle the scanned code as you like, for example:
-        console.log(`Code matched = ${decodedText}`, decodedResult);
-        document.getElementById("textBox").value = decodedText;
+      // This method will trigger user permissions
+      Html5Qrcode.getCameras()
+        .then((devices) => {
+          /**
+           * devices would be an array of objects of type:
+           * { id: "id", label: "label" }
+           */
+          if (devices && devices.length) {
+            var cameraId = devices[0].id;
+            // .. use this to start scanning.
+          }
+        })
+        .catch((err) => {
+          // handle err
+        });
+
+      const html5QrCode = new Html5Qrcode("qr-reader");
+
+      function startCamera() {
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+          // log text into box
+          document.getElementById("textBox").value = decodedText;
+        };
+        const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+        // If you want to prefer back camera
+        html5QrCode.start(
+          { facingMode: "environment" },
+          config,
+          qrCodeSuccessCallback
+        );
       }
 
-      function onScanFailure(error) {
-        // handle scan failure, usually better to ignore and keep scanning.
-        // for example:
-        console.warn(`Code scan error = ${error}`);
+      function stopCamera() {
+        html5QrCode
+          .stop()
+          .then((ignore) => {
+            // QR Code scanning is stopped.
+          })
+          .catch((err) => {
+            // Stop failed, handle it.
+          });
       }
-
-      var html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
-        fps: 10,
-        qrbox: 250,
-      });
-      html5QrcodeScanner.render(onScanSuccess);
 
       if (navigator.serviceWorker) {
         navigator.serviceWorker.register("/pwa/sw.js", { scope: "/pwa/" });
