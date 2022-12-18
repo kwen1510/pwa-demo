@@ -6,70 +6,69 @@
     <title>My First PWA</title>
     <link rel="canonical" href="https://kwen1510.github.io/pwa/" />
     <link rel="manifest" href="/pwa/manifest.webmanifest" />
-    <!--     <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script> -->
-    <script src="./dist/qr.js"></script>
   </head>
   <body>
-    <h2>This is my PWA</h2>
-    <input type="text" id="textBox" /><br />
-    <button onclick="clearInput()">Clear Inputs</button><br />
-    <button onclick="startCamera()">Start Camera</button><br />
-    <button onclick="stopCamera()">Stop Camera</button>
+    <h2>Data Storing</h2>
+    <h3>This app stores data</h3>
 
-    <div id="qr-reader" style="width: 100%"></div>
+    <!-- Remove 'value' from input boxes to remove default values -->
 
+    <label for="nameBox">Name:</label>
+    <input type="text" id="nameBox" value="Kuang Wen"><br><br>
+    
+    <label for="ageBox">Age:</label>
+    <input type="text" id="ageBox" value="100"><br><br>    
+
+    <button id="saveDataButton" onclick="saveData()">Save Data</button><br>
+    <button id="loadDataButton" onclick="loadData()">Load data</button>
+
+    <div id="outputDiv"></div>
+
+
+    <script type="text/javascript">
+      
+
+      function saveData(){
+        var name = document.getElementById("nameBox").value
+        var age = document.getElementById("ageBox").value
+
+        var data = {
+          "name": name,
+          "age": age
+        }
+
+        var jsonData = JSON.stringify(data)
+
+        console.log(jsonData)
+
+        // Save items as "storedData" in local storage
+        localStorage.setItem('storedData', jsonData);
+
+      }
+
+
+      function loadData(){
+
+
+        // Load "storedData" from local storage
+        var storedData = JSON.parse(localStorage.getItem("storedData"))
+
+        var outputDiv = document.getElementById("outputDiv")
+
+        console.log(storedData)
+
+        outputDiv.innerHTML = `Name: ${storedData['name']}<br>Age: ${storedData['age']}`
+      }
+
+    </script>    
+
+
+    <!-- Script for service worker -->
     <script>
-      function clearInput() {
-        document.getElementById("textBox").value = "";
-      }
-
-      // This method will trigger user permissions
-      Html5Qrcode.getCameras()
-        .then((devices) => {
-          /**
-           * devices would be an array of objects of type:
-           * { id: "id", label: "label" }
-           */
-          if (devices && devices.length) {
-            var cameraId = devices[0].id;
-            // .. use this to start scanning.
-          }
-        })
-        .catch((err) => {
-          // handle err
-        });
-
-      const html5QrCode = new Html5Qrcode("qr-reader");
-
-      function startCamera() {
-        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-          // log text into box
-          document.getElementById("textBox").value = decodedText;
-        };
-        const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-
-        // If you want to prefer back camera
-        html5QrCode.start(
-          { facingMode: "environment" },
-          config,
-          qrCodeSuccessCallback
-        );
-      }
-
-      function stopCamera() {
-        html5QrCode
-          .stop()
-          .then((ignore) => {
-            // QR Code scanning is stopped.
-          })
-          .catch((err) => {
-            // Stop failed, handle it.
-          });
-      }
-
       if (navigator.serviceWorker) {
         navigator.serviceWorker.register("/pwa/sw.js", { scope: "/pwa/" });
       }
     </script>
+
   </body>
 </html>
