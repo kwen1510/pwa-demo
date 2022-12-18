@@ -5,7 +5,7 @@ var GHPATH = '/pwa-demo';
 var APP_PREFIX = 'pwa-demo_';
 
 // Change this version everytime something is updated
-var VERSION = 'version_003';
+var VERSION = 'version_004';
 var URLS = [    
   `${GHPATH}/`,
   `${GHPATH}/index.html`,
