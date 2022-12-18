@@ -8,7 +8,7 @@
     <link rel="manifest" href="/pwa-demo/manifest.webmanifest" />
   </head>
   <body>
-    <h2>Data Storage PWA</h2>
+    <h2>Data Storage App</h2>
     <h3>This app stores data</h3>
 
     <label for="nameBox">Name:</label>
@@ -18,7 +18,8 @@
     <input type="text" id="ageBox"><br><br>    
 
     <button id="saveDataButton" onclick="saveData()">Save Data</button><br>
-    <button id="loadDataButton" onclick="loadData()">Load data</button>
+    <button id="loadDataButton" onclick="loadData()">Load data</button><br>
+    <button id="downloadButton" onclick="downloadData()">Download data</button>
 
     <div id="outputDiv"></div>
 
@@ -58,7 +59,27 @@
         outputDiv.innerHTML = `Name: ${storedData['name']}<br>Age: ${storedData['age']}`
       }
 
-    </script>    
+
+      // Script to create download file
+      function downloadData() {
+
+        // Load "storedData" from local storage
+        var storedData = localStorage.getItem("storedData")
+
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(storedData));
+        element.setAttribute('download', 'data.json');
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+      }
+
+
+    </script>
 
 
     <!-- Script for service worker -->
