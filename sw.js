@@ -1,5 +1,5 @@
 // Change this to your repository name
-var GHPATH = '/pwa';
+var GHPATH = '/pwa-demo';
  
 // Choose a different app prefix name
 var APP_PREFIX = 'pwa_';
