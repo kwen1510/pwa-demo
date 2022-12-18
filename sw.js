@@ -3,7 +3,9 @@ var GHPATH = '/pwa-demo';
 
 // Choose a different app prefix name
 var APP_PREFIX = 'pwa-demo_';
-var VERSION = 'version_002';
+
+// Change this version everytime something is updated
+var VERSION = 'version_003';
 var URLS = [    
   `${GHPATH}/`,
   `${GHPATH}/index.html`,
