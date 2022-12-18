@@ -1,13 +1,13 @@
 {
   // Name of the app and short name in case there isn't enough space
-  "name": "Github Page PWA",
-  "short_name": "PWA",
+  "name": "Data Logging App",
+  "short_name": "DLA",
   // Description what your app is
-  "description": "Github Page as a Progressive Web App",
+  "description": "Github Page as a Progressive Web App - To log data",
  
   // Scope and start URL - these need to change to yours
-  "scope": "/pwa/",
-  "start_url": "/pwa/",
+  "scope": "/pwa-demo/",
+  "start_url": "/pwa-demo/",
  
   // colours of the app as displayed in the installer
   "background_color": "#ffffff",
