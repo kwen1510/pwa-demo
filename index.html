@@ -65,7 +65,6 @@
     <script>
       if (navigator.serviceWorker) {
         navigator.serviceWorker.register("/pwa-demo/sw.js", { scope: "/pwa-demo/" });
-        console.log("Service worker loaded")
       } else{
         console.log("Service worker failed")
       }
