@@ -80,12 +80,18 @@
   })
 }
       let cache_name = 'mysite-v1'
+      
+      console.log(cache_name)
+      
 let urls_to_cache = [
  '/pwa-demo/',
  '/pwa-demo/index.html'
 ]
 self.addEventListener('install', (e) => {
  e.waitUntil(caches.open(cache_name).then((cache) => {
+   
+   console.log("Added cache")
+   
   return cache.addAll(urls_to_cache)
  }) )
 })
